@@ -7,6 +7,6 @@ export const Colors = {
   gray: '#9B9B9B',
   reddishbrown: '#DB3022',
   profileBackground: '#F9F9F9',
-  green: '#023020',
+  green: '#2AA952',
   grayButton: '#767577',
 };

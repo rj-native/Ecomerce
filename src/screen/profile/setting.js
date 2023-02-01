@@ -1,98 +1,152 @@
-import {useState} from 'react';
-import {Image, StyleSheet, Switch, Text, View} from 'react-native';
+import { useState } from 'react';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {Images} from '../../assets/images';
-import {CustomInput} from '../../components';
-import {Colors, FontFamily, FontSize} from '../../globalStyles';
+import * as ImagePicker from 'react-native-image-picker';
+
+import { Images } from '../../assets/images';
+import { CustomButton, CustomInput } from '../../components';
+import { ToggleButton } from '../../components/toggleButton/toggleButton';
+import { Colors, FontFamily, FontSize } from '../../globalStyles';
+import { moderateScale } from '../../utils';
 
 export const Setting = () => {
   const [name, setName] = useState('');
   const [birth, setBirth] = useState('');
-  const [password, setPassword] = useState('*************');
+  const [password, setPassword] = useState();
 
-  const [isEnabled, setIsEnabled] = useState(false);
+  const [isSale, setIsSale] = useState(false);
   const [isNew, setIsNew] = useState(false);
   const [delivery, setIsDelivery] = useState(false);
+  const [imageUri, setImageURI] = useState('');
 
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-  const newSwitch = () => setIsNew(previousState => !previousState);
-  const deliverySwitch = () => setIsDelivery(previousState => !previousState);
+  const saleSwitch = () => setIsSale((previousState) => !previousState);
+  const arrivalSwitch = () => {
+    setIsNew((previousState) => !previousState);
+  };
+  const deliverySwitch = () => setIsDelivery((previousState) => !previousState);
+  const trackColor = {
+    false: Colors.grayButton,
+    true: Colors.white,
+  };
+
+  const options = {
+    title: 'Select Image',
+    storageOptions: {
+      skipBackup: true,
+      path: 'images',
+    },
+  };
+
+  const openImagePicker = () => {
+    ImagePicker.launchImageLibrary(options, (response) => {
+      if (response.didCancel) {
+      } else if (response.error) {
+        console.log('response.error', response.error);
+      } else {
+        const imageAssetsArray = response.assets[0].uri;
+        setImageURI(imageAssetsArray);
+        console.log(imageAssetsArray, 'imageAssetsArray');
+      }
+    });
+  };
 
   return (
-    <View style={styles.container}>
-      <FontAwesome name="chevron-left" style={styles.iconStyle} />
-      <View style={styles.heading}>
-        <Text style={styles.headingStyle}>Settings</Text>
-        <Text style={styles.subHeading}>Personal Information</Text>
-      </View>
-      <Image source={Images.profile} style={styles.profileImage} />
-      <View>
-        <CustomInput
-          style={styles.boxStyle}
-          placeholder={'Full name'}
-          value={name}
-          onChange={setName}
-        />
-      </View>
-      <View>
-        <CustomInput
-          style={styles.boxStyle}
-          placeholder={'Date of Birth'}
-          value={birth}
-          onChange={setBirth}
-        />
-      </View>
-      <View style={styles.flexDirectionStyle}>
-        <Text style={styles.passwordstyle}>Password</Text>
-        <Text style={{marginLeft: 200}}>Change</Text>
-      </View>
-      <View>
-        <CustomInput
-          style={styles.boxStyle}
-          placeholder={'Password'}
-          value={password}
-          onChange={setPassword}
-        />
-      </View>
-      <View>
-        <Text style={styles.notifi}>Notifications</Text>
-      </View>
-      <View>
-        <View style={styles.flexDirectionStyle}>
-          <Text style={styles.list}>Sales</Text>
-          <Switch
-            trackColor={{false: Colors.grayButton, true: Colors.white}}
-            thumbColor={isEnabled ? Colors.green : Colors.white}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleSwitch}
-            value={isEnabled}
-            style={styles.toggleButtonOne}
+    <ScrollView>
+      <View style={styles.container}>
+        <FontAwesome name="chevron-left" style={styles.iconStyle} />
+        <View style={styles.heading}>
+          <Text style={styles.headingStyle}>Settings</Text>
+          <Text style={styles.subHeading}>Personal Information</Text>
+        </View>
+        <TouchableOpacity onPress={openImagePicker}>
+          <Image
+            source={!imageUri ? Images.profile : { uri: imageUri }}
+            style={styles.profileImage}
+          />
+        </TouchableOpacity>
+
+        <View>
+          <CustomInput
+            style={styles.boxStyle}
+            placeholder={'Full name'}
+            value={name}
+            onChange={setName}
+          />
+        </View>
+        <View>
+          <CustomInput
+            style={styles.boxStyle}
+            placeholder={'Date of Birth'}
+            value={birth}
+            onChange={setBirth}
           />
         </View>
         <View style={styles.flexDirectionStyle}>
-          <Text style={styles.list}>New Arrivals</Text>
-          <Switch
-            trackColor={{false: Colors.grayButton, true: Colors.white}}
-            thumbColor={isNew ? Colors.green : Colors.white}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={newSwitch}
-            value={isNew}
-            style={styles.toggleButtonTwo}
+          <Text style={styles.passwordstyle}>Password</Text>
+          <Text>Change</Text>
+        </View>
+        <View>
+          <CustomInput
+            style={styles.boxStyle}
+            placeholder={'Password'}
+            value={password}
+            onChange={setPassword}
+            secureTextEntry={true}
+            isSecure
           />
         </View>
-        <View style={styles.flexDirectionStyle}>
-          <Text style={styles.list}>Delivery status changes</Text>
-          <Switch
-            trackColor={{false: Colors.grayButton, true: Colors.white}}
-            thumbColor={delivery ? Colors.green : Colors.white}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={deliverySwitch}
-            value={delivery}
-            style={styles.toggleButtonThree}
-          />
+        <View>
+          <Text style={styles.notifi}>Notifications</Text>
         </View>
+        <View>
+          <View style={styles.toggleStyle}>
+            <Text style={styles.list}>Sales</Text>
+            <ToggleButton
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={saleSwitch}
+              value={isSale}
+              style={styles.toggleButtonOne}
+              trackColor={trackColor}
+              thumbColor={isSale ? Colors.green : Colors.white}
+            />
+          </View>
+          <View style={styles.toggleStyle}>
+            <Text style={styles.list}>New Arrivals</Text>
+            <ToggleButton
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={arrivalSwitch}
+              value={isNew}
+              style={styles.toggleButtonTwo}
+              trackColor={trackColor}
+              thumbColor={isNew ? Colors.green : Colors.white}
+            />
+          </View>
+          <View style={styles.toggleStyle}>
+            <Text style={styles.list}>Delivery status changes</Text>
+            <ToggleButton
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={deliverySwitch}
+              value={delivery}
+              style={styles.toggleButtonThree}
+              trackColor={trackColor}
+              thumbColor={delivery ? Colors.green : Colors.white}
+            />
+          </View>
+        </View>
+        <CustomButton
+          title={'UPDATE'}
+          color={Colors.white}
+          style={styles.updateButtonStyle}
+        />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -107,58 +161,68 @@ const styles = StyleSheet.create({
     fontSize: FontSize.h1,
   },
   heading: {
-    marginLeft: 20,
-    marginTop: 28,
+    marginLeft: moderateScale(20),
+    marginTop: moderateScale(27),
   },
   subHeading: {
     fontFamily: FontFamily.semiBold,
     color: Colors.black,
   },
   profileImage: {
-    height: 60,
-    width: 60,
-    borderRadius: 50,
+    height: moderateScale(90),
+    width: moderateScale(90),
+    borderRadius: moderateScale(50),
     alignSelf: 'center',
+    marginTop: 10,
   },
   boxStyle: {
-    height: 55,
-    marginHorizontal: 17,
-    marginVertical: 12,
+    height: moderateScale(55),
+    marginHorizontal: moderateScale(17),
+    marginVertical: moderateScale(12),
     backgroundColor: Colors.white,
-    marginTop: 20,
-    borderRadius: 4,
+    marginTop: moderateScale(20),
+    borderRadius: moderateScale(4),
     shadowOpacity: 0.2,
   },
   passwordstyle: {
-    marginLeft: 20,
+    marginLeft: moderateScale(20),
     fontFamily: FontFamily.semiBold,
     color: Colors.black,
   },
   notifi: {
-    marginLeft: 20,
+    marginLeft: moderateScale(20),
     fontFamily: FontFamily.semiBold,
     color: Colors.black,
   },
   list: {
-    marginLeft: 20,
-    marginVertical: 10,
+    marginLeft: moderateScale(20),
+    marginVertical: moderateScale(10),
     color: Colors.black,
   },
-  toggleButtonOne: {
-    marginLeft: 253,
+  toggleStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
-  toggleButtonTwo: {
-    marginLeft: 210,
-  },
-  toggleButtonThree: {
-    marginLeft: 140,
-  },
+
   iconStyle: {
-    marginLeft: 20,
-    fontSize: 20,
-    marginTop: 30,
+    marginLeft: moderateScale(20),
+    fontSize: moderateScale(20),
+    marginTop: moderateScale(30),
   },
   flexDirectionStyle: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginRight: moderateScale(20),
+  },
+  updateButtonStyle: {
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    backgroundColor: Colors.black,
+    borderRadius: moderateScale(21),
+    height: moderateScale(40),
+    width: '60%',
+    fontFamily: FontFamily.metropolisRegulas,
   },
 });
