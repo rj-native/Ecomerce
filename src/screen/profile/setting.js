@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import BackArrow from 'react-native-vector-icons/FontAwesome';
 import * as ImagePicker from 'react-native-image-picker';
 
 import { Images } from '../../assets/images';
@@ -16,10 +16,10 @@ import { ToggleButton } from '../../components/toggleButton/toggleButton';
 import { Colors, FontFamily, FontSize } from '../../globalStyles';
 import { moderateScale } from '../../utils';
 
-export const Setting = () => {
+export const Setting = ({ navigation }) => {
   const [name, setName] = useState('');
   const [birth, setBirth] = useState('');
-  const [password, setPassword] = useState();
+  const [contact, setConatct] = useState();
 
   const [isSale, setIsSale] = useState(false);
   const [isNew, setIsNew] = useState(false);
@@ -44,6 +44,12 @@ export const Setting = () => {
     },
   };
 
+  const validateConatct = () => {
+    if (contact.length != 10) {
+      alert('Please Enter valid Contact');
+    }
+  };
+
   const openImagePicker = () => {
     ImagePicker.launchImageLibrary(options, (response) => {
       if (response.didCancel) {
@@ -56,11 +62,18 @@ export const Setting = () => {
       }
     });
   };
+  const BackToProfile = () => {
+    navigation.navigate('profile');
+  };
 
   return (
     <ScrollView>
       <View style={styles.container}>
-        <FontAwesome name="chevron-left" style={styles.iconStyle} />
+        <BackArrow
+          name="chevron-left"
+          style={styles.iconStyle}
+          onPress={BackToProfile}
+        />
         <View style={styles.heading}>
           <Text style={styles.headingStyle}>Settings</Text>
           <Text style={styles.subHeading}>Personal Information</Text>
@@ -88,18 +101,13 @@ export const Setting = () => {
             onChange={setBirth}
           />
         </View>
-        <View style={styles.flexDirectionStyle}>
-          <Text style={styles.passwordstyle}>Password</Text>
-          <Text>Change</Text>
-        </View>
         <View>
           <CustomInput
             style={styles.boxStyle}
-            placeholder={'Password'}
-            value={password}
-            onChange={setPassword}
-            secureTextEntry={true}
-            isSecure
+            placeholder={'Contact'}
+            value={contact}
+            onChange={setConatct}
+            keyboardType="numeric"
           />
         </View>
         <View>
@@ -144,6 +152,7 @@ export const Setting = () => {
           title={'UPDATE'}
           color={Colors.white}
           style={styles.updateButtonStyle}
+          onPress={validateConatct}
         />
       </View>
     </ScrollView>
