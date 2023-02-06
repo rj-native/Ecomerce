@@ -9,4 +9,6 @@ export const Colors = {
   profileBackground: '#F9F9F9',
   green: '#2AA952',
   grayButton: '#767577',
+  gray90: '#E5E5E5',
+  whitish: '#F9F9F9',
 };

@@ -16,6 +16,9 @@ export const ProfileScreen = ({ navigation }) => {
   const NavigateToSetting = () => {
     navigation.navigate('setting');
   };
+  const NavigateToChangePassword = () => {
+    navigation.navigate('changePassword');
+  };
 
   return (
     <ScrollView>
@@ -93,15 +96,17 @@ export const ProfileScreen = ({ navigation }) => {
           </View>
         </TouchableOpacity>
         <View style={styles.underLineStyle} />
-        <View style={styles.viewList}>
-          <View style={styles.paymentStyle}>
-            <Text style={styles.listStyle}>Change Password</Text>
-            <Text>Password</Text>
+        <TouchableOpacity onPress={NavigateToChangePassword}>
+          <View style={styles.viewList}>
+            <View style={styles.paymentStyle}>
+              <Text style={styles.listStyle}>Change Password</Text>
+              <Text>Password</Text>
+            </View>
+            <View style={styles.orderImage}>
+              <RightArrow name="chevron-right" style={styles.shape} />
+            </View>
           </View>
-          <View style={styles.orderImage}>
-            <RightArrow name="chevron-right" style={styles.shape} />
-          </View>
-        </View>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -119,7 +124,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#F9F9F9',
+    backgroundColor: Colors.whitish,
   },
   headingStyle: {
     fontFamily: FontFamily.semiBold,
@@ -148,7 +153,7 @@ const styles = StyleSheet.create({
   },
   underLineStyle: {
     height: 1,
-    backgroundColor: '#E5E5E5',
+    backgroundColor: Colors.gray90,
     width: '100%',
   },
   directionStyle: {
