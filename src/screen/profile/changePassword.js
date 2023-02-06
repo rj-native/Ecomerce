@@ -12,12 +12,15 @@ export const ChangePassword = ({ navigation }) => {
   const [repeatNewPassword, setRepeatNewPassword] = useState('');
 
   const BackToProfile = () => {
-    navigation.navigate('profile');
+    navigation.goBack();
   };
 
   const passwordValidation = () => {
-    if (newPassword == repeatNewPassword) {
-      alert('Password not match');
+    if (!oldPassword || !newPassword || !repeatNewPassword) {
+      alert('Feilds cannot be empty');
+    }
+    if (newPassword != repeatNewPassword) {
+      alert('Password not matched');
     }
   };
 
@@ -30,36 +33,34 @@ export const ChangePassword = ({ navigation }) => {
           onPress={BackToProfile}
         />
         <Text style={styles.headingStyle}>Password Change</Text>
-        <View>
-          <CustomInput
-            style={styles.boxStyle}
-            placeholder={'Old Password'}
-            value={oldPassword}
-            onChange={setOldPassword}
-            secureTextEntry={true}
-            isSecure
-          />
-        </View>
-        <View>
-          <CustomInput
-            style={styles.boxStyle}
-            placeholder={'New Password'}
-            value={newPassword}
-            onChange={setNewPassword}
-            secureTextEntry={true}
-            isSecure
-          />
-        </View>
-        <View>
-          <CustomInput
-            style={styles.boxStyle}
-            placeholder={'Repeat New Password'}
-            secureTextEntry={true}
-            isSecure
-            value={repeatNewPassword}
-            onChange={setRepeatNewPassword}
-          />
-        </View>
+
+        <CustomInput
+          style={styles.boxStyle}
+          placeholder={'Old Password'}
+          value={oldPassword}
+          onChange={setOldPassword}
+          secureTextEntry={true}
+          isSecure
+        />
+
+        <CustomInput
+          style={styles.boxStyle}
+          placeholder={'New Password'}
+          value={newPassword}
+          onChange={setNewPassword}
+          secureTextEntry={true}
+          isSecure
+        />
+
+        <CustomInput
+          style={styles.boxStyle}
+          placeholder={'Repeat New Password'}
+          value={repeatNewPassword}
+          onChange={setRepeatNewPassword}
+          secureTextEntry={true}
+          isSecure
+        />
+
         <CustomButton
           title={'SAVE PASSWORD'}
           color={Colors.white}
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
   },
   headingStyle: {
     fontFamily: FontFamily.semiBold,
-    marginTop: 35,
+    marginTop: moderateScale(35),
     fontSize: FontSize.small,
     color: Colors.black,
     fontSize: FontSize.h1,
@@ -89,7 +90,6 @@ const styles = StyleSheet.create({
     marginHorizontal: moderateScale(17),
     marginVertical: moderateScale(12),
     backgroundColor: Colors.white,
-    marginTop: moderateScale(20),
     borderRadius: moderateScale(4),
     shadowOpacity: 0.2,
   },

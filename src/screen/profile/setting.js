@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
   Image,
   ScrollView,
@@ -16,7 +16,7 @@ import { ToggleButton } from '../../components/toggleButton/toggleButton';
 import { Colors, FontFamily, FontSize } from '../../globalStyles';
 import { moderateScale } from '../../utils';
 
-export const Setting = ({ navigation }) => {
+export const Setting = ({ navigation, route }) => {
   const [name, setName] = useState('');
   const [birth, setBirth] = useState('');
   const [contact, setConatct] = useState();
@@ -63,8 +63,17 @@ export const Setting = ({ navigation }) => {
     });
   };
   const BackToProfile = () => {
-    navigation.navigate('profile');
+    navigation.goBack();
   };
+
+  // React.useLayoutEffect(() => {
+  //   const routeName = getFocusedRouteNameFromRoute(route);
+  //   if (routeName === 'setting') {
+  //     navigation.setOptions({ tabBarVisible: false });
+  //   } else {
+  //     navigation.setOptions({ tabBarVisible: true });
+  //   }
+  // }, [navigation, route]);
 
   return (
     <ScrollView>
@@ -228,7 +237,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    backgroundColor: Colors.black,
+    backgroundColor: Colors.reddishbrown,
     borderRadius: moderateScale(21),
     height: moderateScale(40),
     width: '60%',

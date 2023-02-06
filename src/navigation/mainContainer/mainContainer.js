@@ -1,19 +1,19 @@
 import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Shopicons from 'react-native-vector-icons/Feather';
 
-import {DashboardStackScreens} from '../dashboard/dashboard';
-import {ShopStackScreens} from '../shop';
-import {BagStackScreens} from '../bag/bag';
-import {FavoriteStackScreens} from '../favorite';
-import {ProfileStackScreens} from '../profile';
+import { DashboardStackScreens } from '../dashboard/dashboard';
+import { ShopStackScreens } from '../shop';
+import { BagStackScreens } from '../bag/bag';
+import { FavoriteStackScreens } from '../favorite';
+import { ProfileStackScreens } from '../profile';
 
 const Tab = createBottomTabNavigator();
 
 export const MainContainer = () => (
   <Tab.Navigator
-    screenOptions={({route}) => ({
-      tabBarIcon: ({color, size}) => {
+    screenOptions={({ route }) => ({
+      tabBarIcon: ({ color, size }) => {
         let iconName;
         if (route.name === 'Home') {
           iconName = 'home';
@@ -31,31 +31,34 @@ export const MainContainer = () => (
     })}
     tabBarOptions={{
       activeTintColor: 'red',
-    }}>
+    }}
+  >
     <Tab.Screen
       name="Home"
       component={DashboardStackScreens}
-      options={{headerShown: false}}
+      options={{ headerShown: false }}
     />
     <Tab.Screen
       name="Shop"
       component={ShopStackScreens}
-      options={{headerShown: false}}
+      options={{ headerShown: false }}
     />
     <Tab.Screen
       name="Bag"
       component={BagStackScreens}
-      options={{headerShown: false}}
+      options={{ headerShown: false }}
     />
     <Tab.Screen
       name="Favorite"
       component={FavoriteStackScreens}
-      options={{headerShown: false}}
+      options={{ headerShown: false }}
     />
     <Tab.Screen
       name="Profile"
       component={ProfileStackScreens}
-      options={{headerShown: false}}
+      options={{
+        headerShown: false,
+      }}
     />
   </Tab.Navigator>
 );
