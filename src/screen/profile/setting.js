@@ -8,23 +8,24 @@ import {
   View,
 } from 'react-native';
 import BackArrow from 'react-native-vector-icons/FontAwesome';
+import Calender from 'react-native-vector-icons/FontAwesome';
 import * as ImagePicker from 'react-native-image-picker';
 
 import { Images } from '../../assets/images';
-import { CustomButton, CustomInput } from '../../components';
+import { CustomButton, CustomInput, DatePickers } from '../../components';
 import { ToggleButton } from '../../components/toggleButton/toggleButton';
 import { Colors, FontFamily, FontSize } from '../../globalStyles';
 import { moderateScale } from '../../utils';
 
 export const Setting = ({ navigation, route }) => {
   const [name, setName] = useState('');
-  const [birth, setBirth] = useState('');
   const [contact, setConatct] = useState();
-
   const [isSale, setIsSale] = useState(false);
   const [isNew, setIsNew] = useState(false);
   const [delivery, setIsDelivery] = useState(false);
   const [imageUri, setImageURI] = useState('');
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
 
   const saleSwitch = () => setIsSale((previousState) => !previousState);
   const arrivalSwitch = () => {
@@ -44,7 +45,7 @@ export const Setting = ({ navigation, route }) => {
     },
   };
 
-  const validateConatct = () => {
+  const validateContact = () => {
     if (contact.length != 10) {
       alert('Please Enter valid Contact');
     }
@@ -54,26 +55,15 @@ export const Setting = ({ navigation, route }) => {
     ImagePicker.launchImageLibrary(options, (response) => {
       if (response.didCancel) {
       } else if (response.error) {
-        console.log('response.error', response.error);
       } else {
         const imageAssetsArray = response.assets[0].uri;
         setImageURI(imageAssetsArray);
-        console.log(imageAssetsArray, 'imageAssetsArray');
       }
     });
   };
   const BackToProfile = () => {
     navigation.goBack();
   };
-
-  // React.useLayoutEffect(() => {
-  //   const routeName = getFocusedRouteNameFromRoute(route);
-  //   if (routeName === 'setting') {
-  //     navigation.setOptions({ tabBarVisible: false });
-  //   } else {
-  //     navigation.setOptions({ tabBarVisible: true });
-  //   }
-  // }, [navigation, route]);
 
   return (
     <ScrollView>
@@ -93,75 +83,84 @@ export const Setting = ({ navigation, route }) => {
             style={styles.profileImage}
           />
         </TouchableOpacity>
-
-        <View>
+        <CustomInput
+          style={styles.boxStyle}
+          placeholder={'Full name'}
+          value={name}
+          onChange={setName}
+        />
+        <DatePickers
+          modal
+          mode="date"
+          open={open}
+          date={date}
+          onConfirm={(date) => {
+            setOpen(false);
+            setDate(date);
+          }}
+          onCancel={() => {
+            setOpen(false);
+          }}
+          editable={false}
+        />
+        <View style={styles.boxStyle}>
           <CustomInput
-            style={styles.boxStyle}
-            placeholder={'Full name'}
-            value={name}
-            onChange={setName}
-          />
-        </View>
-        <View>
-          <CustomInput
-            style={styles.boxStyle}
             placeholder={'Date of Birth'}
-            value={birth}
-            onChange={setBirth}
+            value={date?.toLocaleDateString('pt-PT').slice(0, 10)}
+            onChange={() => setDate()}
+          />
+          <Calender
+            name="calendar"
+            onPress={() => setOpen(true)}
+            style={styles.calenderStyle}
           />
         </View>
-        <View>
-          <CustomInput
-            style={styles.boxStyle}
-            placeholder={'Contact'}
-            value={contact}
-            onChange={setConatct}
-            keyboardType="numeric"
+        <CustomInput
+          style={styles.boxStyle}
+          placeholder={'Contact'}
+          value={contact}
+          onChange={setConatct}
+          keyboardType="numeric"
+        />
+        <Text style={styles.notifi}>Notifications</Text>
+        <View style={styles.toggleStyle}>
+          <Text style={styles.list}>Sales</Text>
+          <ToggleButton
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={saleSwitch}
+            value={isSale}
+            style={styles.toggleButtonOne}
+            trackColor={trackColor}
+            thumbColor={isSale ? Colors.green : Colors.white}
           />
         </View>
-        <View>
-          <Text style={styles.notifi}>Notifications</Text>
+        <View style={styles.toggleStyle}>
+          <Text style={styles.list}>New Arrivals</Text>
+          <ToggleButton
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={arrivalSwitch}
+            value={isNew}
+            style={styles.toggleButtonTwo}
+            trackColor={trackColor}
+            thumbColor={isNew ? Colors.green : Colors.white}
+          />
         </View>
-        <View>
-          <View style={styles.toggleStyle}>
-            <Text style={styles.list}>Sales</Text>
-            <ToggleButton
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={saleSwitch}
-              value={isSale}
-              style={styles.toggleButtonOne}
-              trackColor={trackColor}
-              thumbColor={isSale ? Colors.green : Colors.white}
-            />
-          </View>
-          <View style={styles.toggleStyle}>
-            <Text style={styles.list}>New Arrivals</Text>
-            <ToggleButton
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={arrivalSwitch}
-              value={isNew}
-              style={styles.toggleButtonTwo}
-              trackColor={trackColor}
-              thumbColor={isNew ? Colors.green : Colors.white}
-            />
-          </View>
-          <View style={styles.toggleStyle}>
-            <Text style={styles.list}>Delivery status changes</Text>
-            <ToggleButton
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={deliverySwitch}
-              value={delivery}
-              style={styles.toggleButtonThree}
-              trackColor={trackColor}
-              thumbColor={delivery ? Colors.green : Colors.white}
-            />
-          </View>
+        <View style={styles.toggleStyle}>
+          <Text style={styles.list}>Delivery status changes</Text>
+          <ToggleButton
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={deliverySwitch}
+            value={delivery}
+            style={styles.toggleButtonThree}
+            trackColor={trackColor}
+            thumbColor={delivery ? Colors.green : Colors.white}
+          />
         </View>
         <CustomButton
           title={'UPDATE'}
           color={Colors.white}
           style={styles.updateButtonStyle}
-          onPress={validateConatct}
+          onPress={validateContact}
         />
       </View>
     </ScrollView>
@@ -201,6 +200,8 @@ const styles = StyleSheet.create({
     marginTop: moderateScale(20),
     borderRadius: moderateScale(4),
     shadowOpacity: 0.2,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   passwordstyle: {
     marginLeft: moderateScale(20),
@@ -233,7 +234,7 @@ const styles = StyleSheet.create({
     marginRight: moderateScale(20),
   },
   updateButtonStyle: {
-    marginTop: 20,
+    marginTop: moderateScale(20),
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
@@ -242,5 +243,8 @@ const styles = StyleSheet.create({
     height: moderateScale(40),
     width: '60%',
     fontFamily: FontFamily.metropolisRegulas,
+  },
+  calenderStyle: {
+    marginTop: moderateScale(20),
   },
 });

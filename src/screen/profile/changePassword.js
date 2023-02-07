@@ -33,7 +33,6 @@ export const ChangePassword = ({ navigation }) => {
           onPress={BackToProfile}
         />
         <Text style={styles.headingStyle}>Password Change</Text>
-
         <CustomInput
           style={styles.boxStyle}
           placeholder={'Old Password'}
@@ -42,7 +41,6 @@ export const ChangePassword = ({ navigation }) => {
           secureTextEntry={true}
           isSecure
         />
-
         <CustomInput
           style={styles.boxStyle}
           placeholder={'New Password'}
@@ -51,7 +49,6 @@ export const ChangePassword = ({ navigation }) => {
           secureTextEntry={true}
           isSecure
         />
-
         <CustomInput
           style={styles.boxStyle}
           placeholder={'Repeat New Password'}
@@ -60,7 +57,6 @@ export const ChangePassword = ({ navigation }) => {
           secureTextEntry={true}
           isSecure
         />
-
         <CustomButton
           title={'SAVE PASSWORD'}
           color={Colors.white}
