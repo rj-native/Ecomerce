@@ -1,4 +1,4 @@
-import {TextInput} from 'react-native';
+import { TextInput } from 'react-native';
 
 export const CustomInput = ({
   placeholder,
@@ -9,10 +9,12 @@ export const CustomInput = ({
   isSecure,
   keyboardType,
   color,
+  onFocus,
+  editable,
 }) => {
   return (
     <TextInput
-      onChangeText={value => onChange(value)}
+      onChangeText={(value) => onChange(value)}
       value={value}
       placeholder={placeholder}
       style={style}
@@ -20,6 +22,8 @@ export const CustomInput = ({
       secureTextEntry={isSecure}
       keyboardType={keyboardType || 'default'}
       color={color}
+      onFocus={onFocus}
+      editable={editable}
     />
   );
 };
