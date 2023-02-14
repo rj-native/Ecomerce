@@ -15,7 +15,7 @@ import { Colors, FontFamily, FontSize } from '../../globalStyles';
 
 export const ProfileScreen = ({ navigation }) => {
   const { userLoginData } = useSelector((state) => state.auth);
-  console.log('userLoginData', userLoginData);
+
   const NavigateToSetting = () => {
     navigation.navigate('setting');
   };
