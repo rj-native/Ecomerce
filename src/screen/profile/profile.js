@@ -8,11 +8,14 @@ import {
   View,
 } from 'react-native';
 import RightArrow from 'react-native-vector-icons/FontAwesome';
+import { useSelector } from 'react-redux';
 
 import { Images } from '../../assets/images';
 import { Colors, FontFamily, FontSize } from '../../globalStyles';
 
 export const ProfileScreen = ({ navigation }) => {
+  const { userLoginData } = useSelector((state) => state.auth);
+
   const NavigateToSetting = () => {
     navigation.navigate('setting');
   };
@@ -29,8 +32,10 @@ export const ProfileScreen = ({ navigation }) => {
         <View style={styles.directionStyle}>
           <Image source={Images.profile} style={styles.profile}></Image>
           <View>
-            <Text style={styles.nameStyle}>Matlida Brown</Text>
-            <Text style={styles.mailStyle}>matildabrown@gmail.com</Text>
+            <Text style={styles.nameStyle}>
+              {userLoginData?.data?.username}
+            </Text>
+            <Text style={styles.mailStyle}>{userLoginData?.data?.email}</Text>
           </View>
         </View>
         <View style={styles.viewList}>
@@ -101,6 +106,19 @@ export const ProfileScreen = ({ navigation }) => {
             <View style={styles.paymentStyle}>
               <Text style={styles.listStyle}>Change Password</Text>
               <Text>Password</Text>
+            </View>
+            <View style={styles.orderImage}>
+              <RightArrow name="chevron-right" style={styles.shape} />
+            </View>
+          </View>
+        </TouchableOpacity>
+        <View style={styles.underLineStyle} />
+
+        <TouchableOpacity>
+          <View style={styles.viewList}>
+            <View style={styles.paymentStyle}>
+              <Text style={styles.listStyle}>Logout</Text>
+              <Text>User Logout</Text>
             </View>
             <View style={styles.orderImage}>
               <RightArrow name="chevron-right" style={styles.shape} />

@@ -1,11 +1,14 @@
-import {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 
-import {CustomButton, CustomInput} from '../../components';
-import {Colors, FontFamily, FontSize} from '../../globalStyles';
-import {moderateScale, validateEmail} from '../../utils';
+import { CustomButton, CustomInput } from '../../components';
+import { Colors, FontFamily, FontSize } from '../../globalStyles';
+import { createUserAction } from '../../services/authAPI';
+import { moderateScale, validateEmail } from '../../utils';
 
-export const Signup = ({navigation}) => {
+export const Signup = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [mail, setMail] = useState('');
   const [pass, setPass] = useState('');
   const [fullName, setFullName] = useState('');
@@ -14,17 +17,22 @@ export const Signup = ({navigation}) => {
     navigation.navigate('Login');
   };
 
-  const HomeScreen = () => {
-    navigation.navigate('Home');
-  };
-
   const handleSubmit = () => {
     const data = validationSign();
     if (data?.length) {
       alert(data);
       return;
     }
-    HomeScreen();
+
+    const body = {
+      username: fullName,
+      password: pass,
+      email: mail,
+    };
+    dispatch(createUserAction(body));
+    setMail('');
+    setPass('');
+    setFullName('');
   };
 
   const validationSign = () => {
@@ -90,7 +98,8 @@ export const Signup = ({navigation}) => {
         title={'SIGN UP'}
         color={Colors.white}
         style={styles.buttonTitleDesign}
-        onPress={handleSubmit}></CustomButton>
+        onPress={handleSubmit}
+      ></CustomButton>
     </View>
   );
 };

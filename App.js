@@ -1,18 +1,18 @@
-import 'react-native-gesture-handler';
-import {NavigationContainer} from '@react-navigation/native';
-// import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {RootStackScreen} from './src/navigation';
-import {MainContainer} from './src/navigation/mainContainer';
+import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
+import { Provider } from 'react-redux';
 
-import {Home, Login, Signup} from './src/screen';
+import { store } from './src/redux/store';
+import { RootStackScreen } from './src/navigation';
 
 const App = () => {
-  // const Stack = createNativeStackNavigator();
   return (
-    <NavigationContainer>
-      <RootStackScreen />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <RootStackScreen />
+      </NavigationContainer>
+    </Provider>
   );
 };
 
