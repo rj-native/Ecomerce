@@ -1,24 +1,35 @@
-import {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 
-import {CustomButton, CustomInput} from '../../components';
-import {Colors, FontFamily, FontSize} from '../../globalStyles';
-import {validateEmail, moderateScale} from '../../utils';
+import { CustomButton, CustomInput } from '../../components';
+import { Colors, FontFamily, FontSize } from '../../globalStyles';
+import { loginAction } from '../../services/authAPI';
+import { validateEmail, moderateScale } from '../../utils';
 
-export const Login = ({navigation}) => {
+export const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
 
-  const submitHandler = () => {
-    navigation.navigate('SignUp');
-  };
   const submitValidate = () => {
     const dataValidated = validateData();
     if (dataValidated?.length) {
       alert(dataValidated);
       return;
+    } else {
+      const user = {
+        password: password,
+        email: email,
+      };
+      dispatch(loginAction(user));
+      setEmail('');
+      setPassword('');
     }
-    submitHandler();
+  };
+
+  const submitHandler = () => {
+    navigation.navigate('SignUp');
   };
 
   const validateData = () => {
@@ -61,10 +72,11 @@ export const Login = ({navigation}) => {
         title={'LOGIN'}
         color={Colors.white}
         style={styles.buttonTitleDesign}
-        onPress={validateData}></CustomButton>
+        onPress={submitValidate}
+      ></CustomButton>
       <CustomButton
         title={'CREATE ACCOUNT'}
-        onPress={submitValidate}
+        onPress={submitHandler}
         numberOfLines={1}
         style={styles.reuseableButton}
         color={Colors.reddishbrown}
