@@ -20,11 +20,13 @@ export const loginAction = (body) => {
         data: body,
       });
       dispatch(loginSuccess(loginData));
+      alert(loginData?.message);
 
       setLocalData('token strore', loginData.data.token);
       return;
     } catch (err) {
       dispatch(loginRequestFail(err));
+      alert(err?.response?.data?.message);
     }
   };
 };
@@ -39,10 +41,12 @@ export const createUserAction = (body) => {
         data: body,
       });
       dispatch(signupRequestSuccess(createUserData));
+      alert(createUserData?.message);
       setLocalData('token strore', createUserData.data.token);
       return true;
     } catch (err) {
       dispatch(signupRequestFail(err));
+      alert(err?.response.data.message);
       return false;
     }
   };

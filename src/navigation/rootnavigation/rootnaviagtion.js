@@ -10,7 +10,7 @@ export const RootStackScreen = () => {
 
   return (
     <RootStack.Navigator screenOptions={{ headerShown: false }}>
-      {userToken ? (
+      {!userToken ? (
         <RootStack.Screen name="App" component={MainContainer} />
       ) : (
         <RootStack.Screen name="Auth" component={AuthStackScreen} />

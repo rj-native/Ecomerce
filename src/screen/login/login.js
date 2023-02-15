@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { CustomButton, CustomInput } from '../../components';
 import { Colors, FontFamily, FontSize } from '../../globalStyles';
@@ -8,6 +8,7 @@ import { loginAction } from '../../services/authAPI';
 import { validateEmail, moderateScale } from '../../utils';
 
 export const Login = ({ navigation }) => {
+  const { loading } = useSelector((state) => state.auth);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
@@ -46,42 +47,52 @@ export const Login = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      <View style={styles.shadowStyle}>
-        <CustomInput
-          onChange={setEmail}
-          value={email}
-          placeholder={'Email'}
-          style={styles.inputText}
-          placeholderTextColor={Colors.gray}
-          keyboardType={'email-address'}
-        />
-      </View>
-      <View style={styles.shadowStyle}>
-        <CustomInput
-          onChange={setPassword}
-          value={password}
-          placeholder={'Password'}
-          style={styles.inputText}
-          placeholderTextColor={Colors.gray}
-          secureTextEntry={true}
-          isSecure
-        />
-      </View>
-      <CustomButton
-        title={'LOGIN'}
-        color={Colors.white}
-        style={styles.buttonTitleDesign}
-        onPress={submitValidate}
-      ></CustomButton>
-      <CustomButton
-        title={'CREATE ACCOUNT'}
-        onPress={submitHandler}
-        numberOfLines={1}
-        style={styles.reuseableButton}
-        color={Colors.reddishbrown}
-      />
-      <View style={styles.underLineCreate} />
+      {loading ? (
+        <View
+          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+        >
+          <ActivityIndicator color={Colors.black} size="large" />
+        </View>
+      ) : (
+        <View>
+          <Text style={styles.title}>Login</Text>
+          <View style={styles.shadowStyle}>
+            <CustomInput
+              onChange={setEmail}
+              value={email}
+              placeholder={'Email'}
+              style={styles.inputText}
+              placeholderTextColor={Colors.gray}
+              keyboardType={'email-address'}
+            />
+          </View>
+          <View style={styles.shadowStyle}>
+            <CustomInput
+              onChange={setPassword}
+              value={password}
+              placeholder={'Password'}
+              style={styles.inputText}
+              placeholderTextColor={Colors.gray}
+              secureTextEntry={true}
+              isSecure
+            />
+          </View>
+          <CustomButton
+            title={'LOGIN'}
+            color={Colors.white}
+            style={styles.buttonTitleDesign}
+            onPress={submitValidate}
+          ></CustomButton>
+          <CustomButton
+            title={'CREATE ACCOUNT'}
+            onPress={submitHandler}
+            numberOfLines={1}
+            style={styles.reuseableButton}
+            color={Colors.reddishbrown}
+          />
+          <View style={styles.underLineCreate} />
+        </View>
+      )}
     </View>
   );
 };

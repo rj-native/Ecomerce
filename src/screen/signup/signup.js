@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { CustomButton, CustomInput } from '../../components';
 import { Colors, FontFamily, FontSize } from '../../globalStyles';
@@ -8,6 +8,7 @@ import { createUserAction } from '../../services/authAPI';
 import { moderateScale, validateEmail } from '../../utils';
 
 export const Signup = ({ navigation }) => {
+  const { loading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [mail, setMail] = useState('');
   const [pass, setPass] = useState('');
@@ -52,54 +53,64 @@ export const Signup = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sign up</Text>
-      <View style={styles.shadowStyle}>
-        <CustomInput
-          value={fullName}
-          onChange={setFullName}
-          placeholder={'Full Name'}
-          style={styles.inputText}
-          placeholderTextColor={Colors.gray}
-          color={Colors.black}
-        />
-      </View>
-      <View style={styles.shadowStyle}>
-        <CustomInput
-          value={mail}
-          onChange={setMail}
-          placeholder={'Email'}
-          style={styles.inputText}
-          placeholderTextColor={Colors.gray}
-          keyboardType={'email-address'}
-          color={Colors.black}
-        />
-      </View>
-      <View style={styles.shadowStyle}>
-        <CustomInput
-          value={pass}
-          onChange={setPass}
-          placeholder={'Password'}
-          style={styles.inputText}
-          placeholderTextColor={Colors.gray}
-          secureTextEntry={true}
-          color={Colors.black}
-          isSecure
-        />
-      </View>
-      <CustomButton
-        title={'Already have an account?'}
-        color={Colors.reddishbrown}
-        style={styles.loginButton}
-        onPress={backHandler}
-      />
+      {loading ? (
+        <View
+          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+        >
+          <ActivityIndicator color={Colors.black} size="large" />
+        </View>
+      ) : (
+        <View>
+          <Text style={styles.title}>Sign up</Text>
+          <View style={styles.shadowStyle}>
+            <CustomInput
+              value={fullName}
+              onChange={setFullName}
+              placeholder={'Full Name'}
+              style={styles.inputText}
+              placeholderTextColor={Colors.gray}
+              color={Colors.black}
+            />
+          </View>
+          <View style={styles.shadowStyle}>
+            <CustomInput
+              value={mail}
+              onChange={setMail}
+              placeholder={'Email'}
+              style={styles.inputText}
+              placeholderTextColor={Colors.gray}
+              keyboardType={'email-address'}
+              color={Colors.black}
+            />
+          </View>
+          <View style={styles.shadowStyle}>
+            <CustomInput
+              value={pass}
+              onChange={setPass}
+              placeholder={'Password'}
+              style={styles.inputText}
+              placeholderTextColor={Colors.gray}
+              secureTextEntry={true}
+              color={Colors.black}
+              isSecure
+            />
+          </View>
+          <CustomButton
+            title={'Already have an account?'}
+            color={Colors.reddishbrown}
+            style={styles.loginButton}
+            onPress={backHandler}
+          />
 
-      <View style={styles.underlineLogin} />
-      <CustomButton
-        title={'SIGN UP'}
-        color={Colors.white}
-        style={styles.buttonTitleDesign}
-        onPress={handleSubmit}
-      ></CustomButton>
+          <View style={styles.underlineLogin} />
+          <CustomButton
+            title={'SIGN UP'}
+            color={Colors.white}
+            style={styles.buttonTitleDesign}
+            onPress={handleSubmit}
+          ></CustomButton>
+        </View>
+      )}
     </View>
   );
 };

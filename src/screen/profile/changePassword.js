@@ -1,15 +1,26 @@
 import { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 import BackArrow from 'react-native-vector-icons/FontAwesome';
+import { useDispatch, useSelector } from 'react-redux';
 import { CustomButton, CustomInput } from '../../components';
 import { Colors, FontFamily, FontSize } from '../../globalStyles';
+import { changePasswordAction } from '../../services/userAPI';
 import { moderateScale } from '../../utils';
 
 export const ChangePassword = ({ navigation }) => {
+  const { userLoginData } = useSelector((state) => state?.auth);
+  const { loading } = useSelector((state) => state?.auth);
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [repeatNewPassword, setRepeatNewPassword] = useState('');
+  const dispatch = useDispatch();
 
   const BackToProfile = () => {
     navigation.goBack();
@@ -21,48 +32,71 @@ export const ChangePassword = ({ navigation }) => {
     }
     if (newPassword != repeatNewPassword) {
       alert('Password not matched');
+    } else {
+      const userData = {
+        oldPassword: oldPassword,
+        password: newPassword,
+        confirmedPassword: repeatNewPassword,
+      };
+      const userid = userLoginData?.data?._id;
+      dispatch(changePasswordAction(userData, userid));
+      setOldPassword('');
+      setNewPassword('');
+      setRepeatNewPassword('');
     }
+    navigation.navigate('profile');
   };
 
   return (
     <ScrollView>
       <View style={styles.container}>
-        <BackArrow
-          name="chevron-left"
-          style={styles.iconStyle}
-          onPress={BackToProfile}
-        />
-        <Text style={styles.headingStyle}>Password Change</Text>
-        <CustomInput
-          style={styles.boxStyle}
-          placeholder={'Old Password'}
-          value={oldPassword}
-          onChange={setOldPassword}
-          secureTextEntry={true}
-          isSecure
-        />
-        <CustomInput
-          style={styles.boxStyle}
-          placeholder={'New Password'}
-          value={newPassword}
-          onChange={setNewPassword}
-          secureTextEntry={true}
-          isSecure
-        />
-        <CustomInput
-          style={styles.boxStyle}
-          placeholder={'Repeat New Password'}
-          value={repeatNewPassword}
-          onChange={setRepeatNewPassword}
-          secureTextEntry={true}
-          isSecure
-        />
-        <CustomButton
-          title={'SAVE PASSWORD'}
-          color={Colors.white}
-          style={styles.buttonTitleDesign}
-          onPress={passwordValidation}
-        ></CustomButton>
+        {loading ? (
+          <View
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+          >
+            <ActivityIndicator color={Colors.black} size="large" />
+          </View>
+        ) : (
+          <View>
+            {' '}
+            <BackArrow
+              name="chevron-left"
+              style={styles.iconStyle}
+              onPress={BackToProfile}
+            />
+            <Text style={styles.headingStyle}>Password Change</Text>
+            <CustomInput
+              style={styles.boxStyle}
+              placeholder={'Old Password'}
+              value={oldPassword}
+              onChange={setOldPassword}
+              secureTextEntry={true}
+              isSecure
+            />
+            <CustomInput
+              style={styles.boxStyle}
+              placeholder={'New Password'}
+              value={newPassword}
+              onChange={setNewPassword}
+              secureTextEntry={true}
+              isSecure
+            />
+            <CustomInput
+              style={styles.boxStyle}
+              placeholder={'Repeat New Password'}
+              value={repeatNewPassword}
+              onChange={setRepeatNewPassword}
+              secureTextEntry={true}
+              isSecure
+            />
+            <CustomButton
+              title={'SAVE PASSWORD'}
+              color={Colors.white}
+              style={styles.buttonTitleDesign}
+              onPress={passwordValidation}
+            ></CustomButton>
+          </View>
+        )}
       </View>
     </ScrollView>
   );
