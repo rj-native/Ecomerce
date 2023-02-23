@@ -6,9 +6,9 @@ import {
   Text,
   View,
 } from 'react-native';
-
 import BackArrow from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { CustomButton, CustomInput } from '../../components';
 import { Colors, FontFamily, FontSize } from '../../globalStyles';
 import { changePasswordAction } from '../../services/userAPI';
@@ -58,7 +58,6 @@ export const ChangePassword = ({ navigation }) => {
           </View>
         ) : (
           <View>
-            {' '}
             <BackArrow
               name="chevron-left"
               style={styles.iconStyle}

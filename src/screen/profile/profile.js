@@ -3,9 +3,9 @@ import {
   Image,
   ScrollView,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
+  Text,
 } from 'react-native';
 import RightArrow from 'react-native-vector-icons/FontAwesome';
 import { useSelector } from 'react-redux';
@@ -22,6 +22,9 @@ export const ProfileScreen = ({ navigation }) => {
   const NavigateToChangePassword = () => {
     navigation.navigate('changePassword');
   };
+  const NavigateToShipping = () => {
+    navigation.navigate('shipping');
+  };
 
   return (
     <ScrollView>
@@ -33,35 +36,39 @@ export const ProfileScreen = ({ navigation }) => {
           <Image source={Images.profile} style={styles.profile}></Image>
           <View>
             <Text style={styles.nameStyle}>
-              {userLoginData?.data?.username}
+              {userLoginData?.data?.registerUserData?.username}
             </Text>
-            <Text style={styles.mailStyle}>{userLoginData?.data?.email}</Text>
+            <Text style={styles.mailStyle}>
+              {userLoginData?.data?.registerUserData?.email}
+            </Text>
           </View>
         </View>
         <View style={styles.viewList}>
           <View style={styles.orderStyle}>
             <Text style={styles.listStyle}>My Orders</Text>
-            <Text>Already have 12 orders</Text>
+            <Text style={styles.subText}>Already have 12 orders</Text>
           </View>
           <View style={styles.orderImage}>
             <RightArrow name="chevron-right" style={styles.shape} />
           </View>
         </View>
         <View style={styles.underLineStyle} />
-        <View style={styles.viewList}>
-          <View style={styles.shippingStyle}>
-            <Text style={styles.listStyle}>Shipping addresses</Text>
-            <Text>3 addresses</Text>
+        <TouchableOpacity onPress={NavigateToShipping}>
+          <View style={styles.viewList}>
+            <View style={styles.shippingStyle}>
+              <Text style={styles.listStyle}>Shipping addresses</Text>
+              <Text style={styles.subText}>3 addresses</Text>
+            </View>
+            <View style={styles.shippingImage}>
+              <RightArrow name="chevron-right" style={styles.shape} />
+            </View>
           </View>
-          <View style={styles.shippingImage}>
-            <RightArrow name="chevron-right" style={styles.shape} />
-          </View>
-        </View>
+        </TouchableOpacity>
         <View style={styles.underLineStyle} />
         <View style={styles.viewList}>
           <View style={styles.paymentStyle}>
             <Text style={styles.listStyle}>Payment methods</Text>
-            <Text>Visa **34</Text>
+            <Text style={styles.subText}>Visa **34</Text>
           </View>
           <View style={styles.orderImage}>
             <RightArrow name="chevron-right" style={styles.shape} />
@@ -71,7 +78,7 @@ export const ProfileScreen = ({ navigation }) => {
         <View style={styles.viewList}>
           <View style={styles.paymentStyle}>
             <Text style={styles.listStyle}>Promocodes</Text>
-            <Text>You have special Promocodes</Text>
+            <Text style={styles.subText}>You have special Promocodes</Text>
           </View>
           <View style={styles.promoImage}>
             <RightArrow name="chevron-right" style={styles.shape} />
@@ -81,7 +88,7 @@ export const ProfileScreen = ({ navigation }) => {
         <View style={styles.viewList}>
           <View style={styles.reviewsStyle}>
             <Text style={styles.listStyle}>My reviews</Text>
-            <Text>Reviews of 4 items</Text>
+            <Text style={styles.subText}>Reviews of 4 items</Text>
           </View>
           <View style={styles.orderImage}>
             <RightArrow name="chevron-right" style={styles.shape} />
@@ -92,9 +99,8 @@ export const ProfileScreen = ({ navigation }) => {
           <View style={styles.viewList}>
             <View style={styles.paymentStyle}>
               <Text style={styles.listStyle}>Settings</Text>
-              <Text>Notifications</Text>
+              <Text style={styles.subText}>Notifications</Text>
             </View>
-
             <View style={styles.settingImage}>
               <RightArrow name="chevron-right" style={styles.shape} />
             </View>
@@ -105,7 +111,7 @@ export const ProfileScreen = ({ navigation }) => {
           <View style={styles.viewList}>
             <View style={styles.paymentStyle}>
               <Text style={styles.listStyle}>Change Password</Text>
-              <Text>Password</Text>
+              <Text style={styles.subText}>Password</Text>
             </View>
             <View style={styles.orderImage}>
               <RightArrow name="chevron-right" style={styles.shape} />
@@ -113,12 +119,11 @@ export const ProfileScreen = ({ navigation }) => {
           </View>
         </TouchableOpacity>
         <View style={styles.underLineStyle} />
-
         <TouchableOpacity>
           <View style={styles.viewList}>
             <View style={styles.paymentStyle}>
               <Text style={styles.listStyle}>Logout</Text>
-              <Text>User Logout</Text>
+              <Text style={styles.subText}>User Logout</Text>
             </View>
             <View style={styles.orderImage}>
               <RightArrow name="chevron-right" style={styles.shape} />
@@ -139,6 +144,7 @@ const styles = StyleSheet.create({
   },
   shape: {
     fontSize: FontSize.lable,
+    color: Colors.gray,
   },
   container: {
     flex: 1,
@@ -179,6 +185,7 @@ const styles = StyleSheet.create({
   },
   mailStyle: {
     marginLeft: 10,
+    color: Colors.black,
   },
   orderStyle: {
     marginTop: 20,
@@ -203,5 +210,8 @@ const styles = StyleSheet.create({
   },
   settingImage: {
     marginTop: 25,
+  },
+  subText: {
+    color: Colors.gray,
   },
 });

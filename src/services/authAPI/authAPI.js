@@ -46,7 +46,7 @@ export const createUserAction = (body) => {
       return true;
     } catch (err) {
       dispatch(signupRequestFail(err));
-      alert(err?.response.data.message);
+      alert(err?.response?.data?.message);
       return false;
     }
   };

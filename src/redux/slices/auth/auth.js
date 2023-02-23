@@ -32,7 +32,7 @@ export const authSlice = createSlice({
       state.loading = false;
       state.userLoginData = action?.payload;
     },
-    signupRequestFail: ({ state }, action) => {
+    signupRequestFail: (state, action) => {
       state.loading = false;
       state.error = true;
       state.message = action?.error?.message;
@@ -47,6 +47,7 @@ export const {
   signupRequest,
   signupRequestSuccess,
   signupRequestFail,
+  setuserRequest,
 } = authSlice.actions;
 
 export default authSlice.reducer;

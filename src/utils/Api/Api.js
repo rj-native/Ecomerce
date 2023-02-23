@@ -1,6 +1,8 @@
 export const signUpURL =
-  'https://cruel-dodos-learn-116-73-52-53.loca.lt/user/signup';
+  'https://sweet-clouds-fly-116-72-200-199.loca.lt/user/signup';
 export const signInURL =
-  'https://cruel-dodos-learn-116-73-52-53.loca.lt/user/login';
+  'https://sweet-clouds-fly-116-72-200-199.loca.lt/user/login';
 export const changePasswordURL =
-  'https://cruel-dodos-learn-116-73-52-53.loca.lt/user/changePassword';
+  'https://sweet-clouds-fly-116-72-200-199.loca.lt/user/changePassword';
+export const changeProfileURL =
+  'https://sweet-clouds-fly-116-72-200-199.loca.lt/user/personalInfo';

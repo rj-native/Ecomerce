@@ -64,6 +64,7 @@ export const Login = ({ navigation }) => {
               style={styles.inputText}
               placeholderTextColor={Colors.gray}
               keyboardType={'email-address'}
+              color={Colors.black}
             />
           </View>
           <View style={styles.shadowStyle}>
@@ -74,6 +75,7 @@ export const Login = ({ navigation }) => {
               style={styles.inputText}
               placeholderTextColor={Colors.gray}
               secureTextEntry={true}
+              color={Colors.black}
               isSecure
             />
           </View>
@@ -131,7 +133,7 @@ const styles = StyleSheet.create({
   reuseableButton: {
     marginHorizontal: moderateScale(50),
     alignSelf: 'center',
-    width: '33%',
+    width: '26%',
     marginTop: moderateScale(150),
     fontWeight: FontFamily.extraBoldItalic,
     fontFamily: FontFamily.metropolisRegulas,
