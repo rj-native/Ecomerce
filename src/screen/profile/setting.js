@@ -21,9 +21,7 @@ import { changeProfileAction } from '../../services/userAPI';
 
 export const Setting = ({ navigation }) => {
   const { userLoginData } = useSelector((state) => state?.auth);
-  const [name, setName] = useState(
-    userLoginData?.data?.registerUserData?.username
-  );
+  const [name, setName] = useState(userLoginData?.data?.user?.username);
   const [isSale, setIsSale] = useState(false);
   const [isNew, setIsNew] = useState(false);
   const [delivery, setIsDelivery] = useState(false);
@@ -57,7 +55,7 @@ export const Setting = ({ navigation }) => {
       username: name,
       DOB: date,
     };
-    const userid = userLoginData?.data?.registerUserData?._id;
+    const userid = userLoginData?.data?.user?._id;
     dispatch(changeProfileAction(userDetail, userid));
   };
 

@@ -1,8 +1,10 @@
 export const signUpURL =
-  'https://sweet-clouds-fly-116-72-200-199.loca.lt/user/signup';
+  'https://thirty-states-hide-116-72-200-168.loca.lt/user/signup';
 export const signInURL =
-  'https://sweet-clouds-fly-116-72-200-199.loca.lt/user/login';
+  'https://thirty-states-hide-116-72-200-168.loca.lt/user/login';
 export const changePasswordURL =
-  'https://sweet-clouds-fly-116-72-200-199.loca.lt/user/changePassword';
+  'https://thirty-states-hide-116-72-200-168.loca.lt/user/changePassword';
 export const changeProfileURL =
-  'https://sweet-clouds-fly-116-72-200-199.loca.lt/user/personalInfo';
+  'https://thirty-states-hide-116-72-200-168.loca.lt/user/personalInfo';
+export const logOutProfile =
+  'https://thirty-states-hide-116-72-200-168.loca.lt/user/logout';

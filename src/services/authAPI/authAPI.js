@@ -2,13 +2,19 @@ import {
   loginRequest,
   loginRequestFail,
   loginSuccess,
+  logOutFail,
+  logOutRequest,
+  logOutSuccess,
   signupRequest,
   signupRequestFail,
   signupRequestSuccess,
 } from '../../redux/slices/auth';
-import { setLocalData } from '../../utils';
-import { signInURL, signUpURL } from '../../utils/Api';
-import { request } from '../../utils/axiosInstance/axiosInstance';
+import { setToken } from '../../utils';
+import { logOutProfile, signInURL, signUpURL } from '../../utils/Api';
+import {
+  logoutRequest,
+  request,
+} from '../../utils/axiosInstance/axiosInstance';
 
 export const loginAction = (body) => {
   return async (dispatch) => {
@@ -20,9 +26,9 @@ export const loginAction = (body) => {
         data: body,
       });
       dispatch(loginSuccess(loginData));
+      dispatch(loginSuccess(loginData?.data?.token));
       alert(loginData?.message);
-
-      setLocalData('token strore', loginData.data.token);
+      setToken('token', loginData?.data?.token);
       return;
     } catch (err) {
       dispatch(loginRequestFail(err));
@@ -41,11 +47,31 @@ export const createUserAction = (body) => {
         data: body,
       });
       dispatch(signupRequestSuccess(createUserData));
+      dispatch(signupRequestSuccess(createUserData?.data?.token));
       alert(createUserData?.message);
-      setLocalData('token strore', createUserData.data.token);
+      setToken('token', createUserData.data.token);
       return true;
     } catch (err) {
       dispatch(signupRequestFail(err));
+      alert(err?.response?.data?.message);
+      return false;
+    }
+  };
+};
+
+export const logoutUserAction = () => {
+  return async (dispatch) => {
+    try {
+      dispatch(logOutRequest());
+      const logoutUserData = await logoutRequest({
+        url: logOutProfile,
+        method: 'delete',
+      });
+      dispatch(logOutSuccess(logoutUserData));
+      alert(logoutUserData?.message);
+      return true;
+    } catch (err) {
+      dispatch(logOutFail(err));
       alert(err?.response?.data?.message);
       return false;
     }

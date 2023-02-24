@@ -45,8 +45,6 @@ export const ShippingAddress = ({ navigation }) => {
   //   });
   // };
 
-  console.log(data, 'data');
-
   const showCard = ({ item }) => {
     return (
       <View style={styles.item}>

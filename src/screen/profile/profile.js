@@ -8,12 +8,14 @@ import {
   Text,
 } from 'react-native';
 import RightArrow from 'react-native-vector-icons/FontAwesome';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Images } from '../../assets/images';
 import { Colors, FontFamily, FontSize } from '../../globalStyles';
+import { logoutUserAction } from '../../services/authAPI';
 
 export const ProfileScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
   const { userLoginData } = useSelector((state) => state.auth);
 
   const NavigateToSetting = () => {
@@ -24,6 +26,9 @@ export const ProfileScreen = ({ navigation }) => {
   };
   const NavigateToShipping = () => {
     navigation.navigate('shipping');
+  };
+  const handeLogout = () => {
+    dispatch(logoutUserAction());
   };
 
   return (
@@ -36,10 +41,10 @@ export const ProfileScreen = ({ navigation }) => {
           <Image source={Images.profile} style={styles.profile}></Image>
           <View>
             <Text style={styles.nameStyle}>
-              {userLoginData?.data?.registerUserData?.username}
+              {userLoginData?.data?.user?.username}
             </Text>
             <Text style={styles.mailStyle}>
-              {userLoginData?.data?.registerUserData?.email}
+              {userLoginData?.data?.user?.email}
             </Text>
           </View>
         </View>
@@ -119,7 +124,7 @@ export const ProfileScreen = ({ navigation }) => {
           </View>
         </TouchableOpacity>
         <View style={styles.underLineStyle} />
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handeLogout}>
           <View style={styles.viewList}>
             <View style={styles.paymentStyle}>
               <Text style={styles.listStyle}>Logout</Text>

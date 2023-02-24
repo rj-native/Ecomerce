@@ -133,14 +133,14 @@ const styles = StyleSheet.create({
   reuseableButton: {
     marginHorizontal: moderateScale(50),
     alignSelf: 'center',
-    width: '26%',
-    marginTop: moderateScale(150),
+    width: '30%',
+    marginTop: moderateScale(120),
     fontWeight: FontFamily.extraBoldItalic,
     fontFamily: FontFamily.metropolisRegulas,
   },
   underLineCreate: {
     alignSelf: 'center',
-    height: 0.5,
+    height: 1,
     backgroundColor: Colors.reddishbrown,
     marginTop: 1,
     width: '34%',
