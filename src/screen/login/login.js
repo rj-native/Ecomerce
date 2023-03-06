@@ -48,9 +48,7 @@ export const Login = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {loading ? (
-        <View
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-        >
+        <View style={styles.viewStyle}>
           <ActivityIndicator color={Colors.black} size="large" />
         </View>
       ) : (
@@ -102,7 +100,7 @@ export const Login = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F9F9F9',
+    backgroundColor: Colors.profileBackground,
   },
   title: {
     fontSize: FontSize.h4,
@@ -153,7 +151,12 @@ const styles = StyleSheet.create({
     borderWidth: 0.2,
     borderRadius: 3,
     marginHorizontal: moderateScale(20),
-    backgroundColor: 'white',
-    borderColor: 'white',
+    backgroundColor: Colors.white,
+    borderColor: Colors.white,
+  },
+  viewStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

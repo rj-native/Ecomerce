@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import {
   Image,
   ScrollView,
@@ -12,11 +13,16 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Images } from '../../assets/images';
 import { Colors, FontFamily, FontSize } from '../../globalStyles';
-import { logoutUserAction } from '../../services/authAPI';
+import { getUserAction, logoutUserAction } from '../../services/authAPI';
 
 export const ProfileScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  const { userLoginData } = useSelector((state) => state.auth);
+
+  const { userDetail } = useSelector((state) => state?.auth);
+
+  useEffect(() => {
+    dispatch(getUserAction());
+  }, []);
 
   const NavigateToSetting = () => {
     navigation.navigate('setting');
@@ -40,12 +46,8 @@ export const ProfileScreen = ({ navigation }) => {
         <View style={styles.directionStyle}>
           <Image source={Images.profile} style={styles.profile}></Image>
           <View>
-            <Text style={styles.nameStyle}>
-              {userLoginData?.data?.user?.username}
-            </Text>
-            <Text style={styles.mailStyle}>
-              {userLoginData?.data?.user?.email}
-            </Text>
+            <Text style={styles.nameStyle}>{userDetail.username}</Text>
+            <Text style={styles.mailStyle}>{userDetail.email}</Text>
           </View>
         </View>
         <View style={styles.viewList}>

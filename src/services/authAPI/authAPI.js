@@ -1,4 +1,7 @@
 import {
+  getuserRequest,
+  getuserRequestFail,
+  getuserSuccess,
   loginRequest,
   loginRequestFail,
   loginSuccess,
@@ -10,7 +13,12 @@ import {
   signupRequestSuccess,
 } from '../../redux/slices/auth';
 import { setToken } from '../../utils';
-import { logOutProfile, signInURL, signUpURL } from '../../utils/Api';
+import {
+  getUserURL,
+  logOutProfile,
+  signInURL,
+  signUpURL,
+} from '../../utils/Api';
 import {
   logoutRequest,
   request,
@@ -25,7 +33,7 @@ export const loginAction = (body) => {
         method: 'post',
         data: body,
       });
-      dispatch(loginSuccess(loginData));
+      dispatch(loginSuccess(loginData?.data));
       dispatch(loginSuccess(loginData?.data?.token));
       alert(loginData?.message);
       setToken('token', loginData?.data?.token);
@@ -47,7 +55,6 @@ export const createUserAction = (body) => {
         data: body,
       });
       dispatch(signupRequestSuccess(createUserData));
-      dispatch(signupRequestSuccess(createUserData?.data?.token));
       alert(createUserData?.message);
       setToken('token', createUserData.data.token);
       return true;
@@ -73,6 +80,24 @@ export const logoutUserAction = () => {
     } catch (err) {
       dispatch(logOutFail(err));
       alert(err?.response?.data?.message);
+      return false;
+    }
+  };
+};
+
+export const getUserAction = () => {
+  return async (dispatch) => {
+    try {
+      dispatch(getuserRequest());
+      const getUserData = await logoutRequest({
+        url: getUserURL,
+        method: 'get',
+      });
+
+      dispatch(getuserSuccess(getUserData));
+      return true;
+    } catch (err) {
+      dispatch(getuserRequestFail(err));
       return false;
     }
   };

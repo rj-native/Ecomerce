@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Image,
   ScrollView,
@@ -18,15 +18,17 @@ import { ToggleButton } from '../../components/toggleButton/toggleButton';
 import { Colors, FontFamily, FontSize } from '../../globalStyles';
 import { moderateScale } from '../../utils';
 import { changeProfileAction } from '../../services/userAPI';
+import { getUserAction } from '../../services/authAPI';
 
 export const Setting = ({ navigation }) => {
-  const { userLoginData } = useSelector((state) => state?.auth);
-  const [name, setName] = useState(userLoginData?.data?.user?.username);
+  const { userDetail } = useSelector((state) => state?.auth);
+
+  const [name, setName] = useState(userDetail?.username);
   const [isSale, setIsSale] = useState(false);
   const [isNew, setIsNew] = useState(false);
   const [delivery, setIsDelivery] = useState(false);
   const [imageUri, setImageURI] = useState('');
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(new Date(userDetail?.DOB));
   const [open, setOpen] = useState(false);
 
   const dispatch = useDispatch();
@@ -49,22 +51,12 @@ export const Setting = ({ navigation }) => {
     },
   };
 
-  const updateHandler = () => {
-    const userDetail = {
-      image: dataPhoto.toString(),
-      username: name,
-      DOB: date,
-    };
-    const userid = userLoginData?.data?.user?._id;
-    dispatch(changeProfileAction(userDetail, userid));
-  };
-
   const openImagePicker = () => {
     ImagePicker.launchImageLibrary(options, (response) => {
       if (response.didCancel) {
       } else if (response.error) {
       } else {
-        const imageAssetsArray = response.assets[0].uri;
+        const imageAssetsArray = response.assets[0];
         setImageURI(imageAssetsArray);
       }
     });
@@ -72,6 +64,22 @@ export const Setting = ({ navigation }) => {
   const BackToProfile = () => {
     navigation.goBack();
   };
+
+  const updateHandler = () => {
+    const userDetails = {
+      username: name,
+      DOB: date,
+    };
+    const userid = userDetail._id;
+    dispatch(changeProfileAction(userDetails, userid));
+  };
+
+  useEffect(() => {
+    dispatch(getUserAction());
+  }, []);
+
+  const dt = new Date(userDetail?.DOB);
+  const dataa = dt?.toLocaleDateString('en-US');
 
   return (
     <ScrollView>
@@ -115,7 +123,7 @@ export const Setting = ({ navigation }) => {
         <View style={styles.boxStyle}>
           <CustomInput
             placeholder={'Date of Birth'}
-            value={date?.toLocaleDateString('en-IN')}
+            value={dataa}
             onChange={() => setDate()}
             color={Colors.black}
           />

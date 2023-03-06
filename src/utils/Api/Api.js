@@ -1,10 +1,12 @@
 export const signUpURL =
-  'https://thirty-states-hide-116-72-200-168.loca.lt/user/signup';
+  'https://mighty-moose-retire-116-72-200-46.loca.lt/user/signup';
 export const signInURL =
-  'https://thirty-states-hide-116-72-200-168.loca.lt/user/login';
+  'https://mighty-moose-retire-116-72-200-46.loca.lt/user/login';
 export const changePasswordURL =
-  'https://thirty-states-hide-116-72-200-168.loca.lt/user/changePassword';
+  'https://mighty-moose-retire-116-72-200-46.loca.lt/user/changePassword';
 export const changeProfileURL =
-  'https://thirty-states-hide-116-72-200-168.loca.lt/user/personalInfo';
+  'https://mighty-moose-retire-116-72-200-46.loca.lt/user/personalInfo';
 export const logOutProfile =
-  'https://thirty-states-hide-116-72-200-168.loca.lt/user/logout';
+  'https://mighty-moose-retire-116-72-200-46.loca.lt/user/logout';
+export const getUserURL =
+  'https://mighty-moose-retire-116-72-200-46.loca.lt/user/user';

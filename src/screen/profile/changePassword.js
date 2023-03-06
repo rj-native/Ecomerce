@@ -15,11 +15,12 @@ import { changePasswordAction } from '../../services/userAPI';
 import { moderateScale } from '../../utils';
 
 export const ChangePassword = ({ navigation }) => {
-  const { userLoginData } = useSelector((state) => state?.auth);
+  const { userDetail } = useSelector((state) => state?.auth);
   const { loading } = useSelector((state) => state?.auth);
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [repeatNewPassword, setRepeatNewPassword] = useState('');
+
   const dispatch = useDispatch();
 
   const BackToProfile = () => {
@@ -38,7 +39,7 @@ export const ChangePassword = ({ navigation }) => {
         password: newPassword,
         confirmedPassword: repeatNewPassword,
       };
-      const userid = userLoginData?.data?._id;
+      const userid = userDetail?._id;
       dispatch(changePasswordAction(userData, userid));
       setOldPassword('');
       setNewPassword('');

@@ -36,15 +36,6 @@ export const ShippingAddress = ({ navigation }) => {
 
   const [data, setData] = useState(DATA);
 
-  // const handleChangeCheckbox = (e, i) => {
-  //   data.filter((abc) => {
-  //     if (abc.id === i) {
-  //       abc.checked = e;
-  //       setData({ ...data, ...abc });
-  //     }
-  //   });
-  // };
-
   const showCard = ({ item }) => {
     return (
       <View style={styles.item}>
@@ -56,13 +47,6 @@ export const ShippingAddress = ({ navigation }) => {
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.address}>{item.address}</Text>
         <Text style={styles.address}>{item.states}</Text>
-
-        {/* <CheckBox
-          id={`custom-checkbox-${index}`}
-          onValueChange={(a) => handleChangeCheckbox(a, item.id)}
-          value={item.checked}
-        />
-        <Text style={{ color: 'black' }}>Use as the shipping address</Text> */}
       </View>
     );
   };

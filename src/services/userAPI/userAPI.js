@@ -8,12 +8,12 @@ import {
 } from '../../redux/slices';
 import { changePasswordURL, changeProfileURL } from '../../utils/Api';
 import { request } from '../../utils/axiosInstance/axiosInstance';
+import { getUserAction } from '../authAPI';
 
 export const changePasswordAction = (body, id) => {
   return async (dispatch) => {
     try {
       dispatch(changePasswordRequest());
-
       const changePasswordData = await request({
         url: `${changePasswordURL}/${id}`,
         method: 'put',
@@ -38,8 +38,12 @@ export const changeProfileAction = (body, id) => {
         url: `${changeProfileURL}/${id}`,
         method: 'put',
         data: body,
+        // headers: {
+        //   'Content-Type': 'multipart/form-data',
+        // },
       });
       dispatch(changeProfileSuccess(changeProfileData));
+      dispatch(getUserAction());
       alert(changeProfileData?.message);
       return;
     } catch (err) {
