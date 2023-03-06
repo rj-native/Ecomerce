@@ -5,8 +5,8 @@ export const setLocalData = (key, value) =>
 
 export const getLocalData = (key) => AsyncStorage.getItem(key);
 
-export const setToken = async (val) => {
-  setLocalData('token', JSON.stringify(val));
+export const setToken = async (key, val) => {
+  setLocalData(key, JSON.stringify(val));
 };
 
 export const getToken = async () => {

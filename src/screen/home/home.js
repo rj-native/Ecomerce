@@ -8,7 +8,7 @@ export const HomeScreen = ({ navigation }) => {
       <Text>Welcome To Home Screen</Text>
       <Button
         title="Go to Bag Page"
-        onPress={() => navigation.navigate('bag')}
+        onPress={() => navigation.navigate('Bag')}
       />
     </View>
   );

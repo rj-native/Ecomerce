@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
 
 import { store } from './src/redux/store';
-import { RootStackScreen } from './src/navigation';
+import { RootStackScreen } from './src/navigation/rootnavigation/rootnaviagtion';
 
 const App = () => {
   return (

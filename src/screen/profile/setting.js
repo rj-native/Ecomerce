@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Image,
   ScrollView,
@@ -10,23 +10,28 @@ import {
 import BackArrow from 'react-native-vector-icons/FontAwesome';
 import Calender from 'react-native-vector-icons/FontAwesome';
 import * as ImagePicker from 'react-native-image-picker';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Images } from '../../assets/images';
 import { CustomButton, CustomInput, DatePickers } from '../../components';
 import { ToggleButton } from '../../components/toggleButton/toggleButton';
 import { Colors, FontFamily, FontSize } from '../../globalStyles';
 import { moderateScale } from '../../utils';
+import { changeProfileAction } from '../../services/userAPI';
+import { getUserAction } from '../../services/authAPI';
 
-export const Setting = ({ navigation, route }) => {
-  const [name, setName] = useState('');
-  const [contact, setConatct] = useState();
+export const Setting = ({ navigation }) => {
+  const { userDetail } = useSelector((state) => state?.auth);
+
+  const [name, setName] = useState(userDetail?.username);
   const [isSale, setIsSale] = useState(false);
   const [isNew, setIsNew] = useState(false);
   const [delivery, setIsDelivery] = useState(false);
   const [imageUri, setImageURI] = useState('');
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(new Date(userDetail?.DOB));
   const [open, setOpen] = useState(false);
 
+  const dispatch = useDispatch();
   const saleSwitch = () => setIsSale((previousState) => !previousState);
   const arrivalSwitch = () => {
     setIsNew((previousState) => !previousState);
@@ -42,13 +47,8 @@ export const Setting = ({ navigation, route }) => {
     storageOptions: {
       skipBackup: true,
       path: 'images',
+      type: 'image/jpeg/jpg/png',
     },
-  };
-
-  const validateContact = () => {
-    if (contact.length != 10) {
-      alert('Please Enter valid Contact');
-    }
   };
 
   const openImagePicker = () => {
@@ -56,7 +56,7 @@ export const Setting = ({ navigation, route }) => {
       if (response.didCancel) {
       } else if (response.error) {
       } else {
-        const imageAssetsArray = response.assets[0].uri;
+        const imageAssetsArray = response.assets[0];
         setImageURI(imageAssetsArray);
       }
     });
@@ -64,6 +64,22 @@ export const Setting = ({ navigation, route }) => {
   const BackToProfile = () => {
     navigation.goBack();
   };
+
+  const updateHandler = () => {
+    const userDetails = {
+      username: name,
+      DOB: date,
+    };
+    const userid = userDetail._id;
+    dispatch(changeProfileAction(userDetails, userid));
+  };
+
+  useEffect(() => {
+    dispatch(getUserAction());
+  }, []);
+
+  const dt = new Date(userDetail?.DOB);
+  const dataa = dt?.toLocaleDateString('en-US');
 
   return (
     <ScrollView>
@@ -79,7 +95,7 @@ export const Setting = ({ navigation, route }) => {
         </View>
         <TouchableOpacity onPress={openImagePicker}>
           <Image
-            source={!imageUri ? Images.profile : { uri: imageUri }}
+            source={!imageUri ? Images.profile : imageUri}
             style={styles.profileImage}
           />
         </TouchableOpacity>
@@ -88,6 +104,7 @@ export const Setting = ({ navigation, route }) => {
           placeholder={'Full name'}
           value={name}
           onChange={setName}
+          color={Colors.black}
         />
         <DatePickers
           modal
@@ -106,8 +123,9 @@ export const Setting = ({ navigation, route }) => {
         <View style={styles.boxStyle}>
           <CustomInput
             placeholder={'Date of Birth'}
-            value={date?.toLocaleDateString('pt-PT').slice(0, 10)}
+            value={dataa}
             onChange={() => setDate()}
+            color={Colors.black}
           />
           <Calender
             name="calendar"
@@ -115,13 +133,7 @@ export const Setting = ({ navigation, route }) => {
             style={styles.calenderStyle}
           />
         </View>
-        <CustomInput
-          style={styles.boxStyle}
-          placeholder={'Contact'}
-          value={contact}
-          onChange={setConatct}
-          keyboardType="numeric"
-        />
+
         <Text style={styles.notifi}>Notifications</Text>
         <View style={styles.toggleStyle}>
           <Text style={styles.list}>Sales</Text>
@@ -160,7 +172,7 @@ export const Setting = ({ navigation, route }) => {
           title={'UPDATE'}
           color={Colors.white}
           style={styles.updateButtonStyle}
-          onPress={validateContact}
+          onPress={updateHandler}
         />
       </View>
     </ScrollView>
@@ -246,5 +258,6 @@ const styles = StyleSheet.create({
   },
   calenderStyle: {
     marginTop: moderateScale(20),
+    color: Colors.black,
   },
 });
